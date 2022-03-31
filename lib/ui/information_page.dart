@@ -10,7 +10,7 @@ class InformationPage extends StatefulWidget {
 
   final String id;
 
-  const InformationPage({required this.id});
+  const InformationPage({Key? key, required this.id}) : super(key: key);
 
   @override
   State<InformationPage> createState() => _InformationPageState();
@@ -24,9 +24,9 @@ class _InformationPageState extends State<InformationPage> {
       child: Scaffold(
         body: Consumer<DetailRestaurantProvider>(
           builder: (context, state, _) {
-            if (state.state == DetailResultState.Loading) {
-              return Center(child: CircularProgressIndicator());
-            } else if (state.state == ResultState.HasData) {
+            if (state.state == DetailResultState.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.state == DetailResultState.hasData) {
               final restaurant = state.detailRestaurant;
               return SingleChildScrollView(
                 child: Column(
@@ -52,7 +52,7 @@ class _InformationPageState extends State<InformationPage> {
                             children: [
                               Text(
                                 restaurant.restaurant.name,
-                                style: heading1,
+                                style: heading2,
                               ),
                               const LikeButton(),
                             ],
@@ -73,11 +73,11 @@ class _InformationPageState extends State<InformationPage> {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          Text('Description', style: heading2),
+                          Text('Description', style: heading3),
                           Text(restaurant.restaurant.description,
                               style: subText2, textAlign: TextAlign.justify),
                           const SizedBox(height: 16),
-                          Text('Menus', style: heading2),
+                          Text('Menus', style: heading3),
                           const SizedBox(height: 8),
                           Text('Foods:', style: subText1),
                           SizedBox(
@@ -145,19 +145,19 @@ class _InformationPageState extends State<InformationPage> {
                                 );
                               }).toList(),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
               );
-            } else if (state.state == ResultState.NoData) {
+            } else if (state.state == DetailResultState.noData) {
               return Center(child: Text(state.message));
-            } else if (state.state == ResultState.Error) {
+            } else if (state.state == DetailResultState.error) {
               return Center(child: Text(state.message));
             } else {
-              return Center(child: Text(''));
+              return const Center(child: Text('Sorry, please connect your phone to the internet.'));
             }
           }
         ),

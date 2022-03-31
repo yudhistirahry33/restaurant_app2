@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/ui/home_page.dart';
 import 'package:restaurant_app/ui/information_page.dart';
-import 'package:restaurant_app/data/model/models.dart';
+import 'package:restaurant_app/ui/search_page.dart';
 
 var appBarText = const TextStyle(
     fontSize: 25, fontFamily: 'Staatliches', color: Colors.white);
@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Indonesian Best Resto',
+      title: 'Indonesian Best Restaurant',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(primary: primaryColor),
+        primarySwatch: Colors.brown,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: primaryColor,
@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
               ? 'null'
               : ModalRoute.of(context)!.settings.arguments as String,
             ),
+        SearchPage.routeName: (context) => const SearchPage(),
       },
     );
   }

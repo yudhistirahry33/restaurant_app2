@@ -1,6 +1,6 @@
 part of 'providers.dart';
 
-enum ResultState { Loading, NoData, HasData, Error }
+enum ListResultState { loading, noData, hasData, error }
 
 class RestaurantListProvider extends ChangeNotifier {
   final ApiService apiService;
@@ -10,31 +10,31 @@ class RestaurantListProvider extends ChangeNotifier {
   }
 
   late RestaurantListResult _restaurantResult;
-  late ResultState _state;
+  late ListResultState _state;
   String _message = '';
 
   String get message => _message;
 
   RestaurantListResult get result => _restaurantResult;
 
-  ResultState get state => _state;
+  ListResultState get state => _state;
 
   Future<dynamic> _fetchListRestaurant() async {
     try {
-      _state = ResultState.Loading;
+      _state = ListResultState.loading;
       notifyListeners();
       final restaurant = await apiService.listRestaurant();
       if (restaurant.restaurants.isEmpty) {
-        _state = ResultState.NoData;
+        _state = ListResultState.noData;
         notifyListeners();
         return _message = 'Empty Data';
       } else {
-        _state = ResultState.HasData;
+        _state = ListResultState.hasData;
         notifyListeners();
         return _restaurantResult = restaurant;
       }
     } catch (e) {
-      _state = ResultState.Error;
+      _state = ListResultState.error;
       notifyListeners();
       return _message = 'Sorry, please connect your phone to the internet.';
     }

@@ -4,3 +4,4 @@ import 'package:restaurant_app/data/model/models.dart';
 
 part 'list_provider.dart';
 part 'detail_provider.dart';
+part 'search_provider.dart';

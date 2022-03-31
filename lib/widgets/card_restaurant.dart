@@ -8,14 +8,14 @@ class CardRestaurant extends StatelessWidget {
 
   final RestaurantList restaurant;
 
-  const CardRestaurant({required this.restaurant});
+  const CardRestaurant({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, InformationPage.routeName,
-            arguments: restaurant);
+            arguments: restaurant.id);
       },
       child: Card(
         margin: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
@@ -50,7 +50,7 @@ class CardRestaurant extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       restaurant.name,
-                      style: heading2,
+                      style: heading3,
                     ),
                     Row(
                       children: [

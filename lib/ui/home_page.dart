@@ -4,6 +4,7 @@ import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/provider/providers.dart';
 import 'package:restaurant_app/ui/search_page.dart';
+import 'package:restaurant_app/ui/setting_page.dart';
 import 'package:restaurant_app/widgets/card_restaurant.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,22 +19,27 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _bottomNavIndex = 0;
 
-  List<Widget> _listWidget = [
+  final List<Widget> _listWidget = [
     ChangeNotifierProvider<RestaurantListProvider>(
       create: (_) => RestaurantListProvider(apiService: ApiService()),
-      child: RestaurantListPage(),
+      child: const RestaurantListPage(),
     ),
-    SearchPage(),
+    const SearchPage(),
+    const SettingPage(),
   ];
 
-  List<BottomNavigationBarItem> _bottomNavBarItems = [
-    BottomNavigationBarItem(
+  final List<BottomNavigationBarItem> _bottomNavBarItems = [
+    const BottomNavigationBarItem(
       icon: Icon(Icons.restaurant),
       label: 'Restaurants',
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       icon: Icon(Icons.search),
       label: 'Search',
+    ),
+    const BottomNavigationBarItem(
+      icon: Icon(Icons.settings),
+      label: 'Settings',
     ),
   ];
 
@@ -57,6 +63,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class RestaurantListPage extends StatelessWidget {
+  const RestaurantListPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +79,7 @@ class RestaurantListPage extends StatelessWidget {
                   'images/resto.jpg',
                   fit: BoxFit.cover,
                 ),
-                title: Text('Best Restaurant in Indonesia', style: title),
+                title: Text('Best Restaurant in Indonesia', style: heading1),
                 titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
               ),
             ),
@@ -79,9 +87,9 @@ class RestaurantListPage extends StatelessWidget {
         },
         body: Consumer<RestaurantListProvider>(
           builder: (context, state, _) {
-            if (state.state == ResultState.Loading) {
-              return Center(child: CircularProgressIndicator());
-            } else if (state.state == ResultState.HasData) {
+            if (state.state == ListResultState.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.state == ListResultState.hasData) {
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: state.result.restaurants.length,
@@ -92,12 +100,12 @@ class RestaurantListPage extends StatelessWidget {
                   );
                 },
               );
-            } else if (state.state == ResultState.NoData) {
+            } else if (state.state == ListResultState.noData) {
               return Center(child: Text(state.message));
-            } else if (state.state == ResultState.Error) {
+            } else if (state.state == ListResultState.error) {
               return Center(child: Text(state.message));
             } else {
-              return Center(child: Text(''));
+              return const Center(child: Text('Sorry, please connect your phone to the internet.'));
             }
           },
         ),

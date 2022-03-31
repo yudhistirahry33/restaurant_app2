@@ -34,7 +34,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/local_restaurant.json
     - images/
 
   fonts:
