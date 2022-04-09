@@ -16,6 +16,11 @@ dependencies:
   like_button: ^2.0.4
   http: ^0.13.4
   provider: ^6.0.2
+  sqflite: ^2.0.2
+  intl: ^0.17.0
+  flutter_local_notifications: ^9.4.0
+  rxdart: ^0.27.3
+  android_alarm_manager_plus: ^2.0.5
 
 dev_dependencies:
   flutter_test:

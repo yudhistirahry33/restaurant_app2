@@ -1,7 +1,5 @@
 part of 'providers.dart';
 
-enum ListResultState { loading, noData, hasData, error }
-
 class RestaurantListProvider extends ChangeNotifier {
   final ApiService apiService;
 

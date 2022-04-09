@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/page/favorite_page.dart';
 import 'package:restaurant_app/provider/providers.dart';
-import 'package:restaurant_app/ui/search_page.dart';
-import 'package:restaurant_app/ui/setting_page.dart';
+import 'package:restaurant_app/page/search_page.dart';
+import 'package:restaurant_app/page/setting_page.dart';
+import 'package:restaurant_app/utils/list_result_state.dart';
+import 'package:restaurant_app/utils/notification_helper.dart';
 import 'package:restaurant_app/widgets/card_restaurant.dart';
+
+import 'information_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
@@ -17,14 +21,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
   int _bottomNavIndex = 0;
 
   final List<Widget> _listWidget = [
-    ChangeNotifierProvider<RestaurantListProvider>(
-      create: (_) => RestaurantListProvider(apiService: ApiService()),
-      child: const RestaurantListPage(),
-    ),
+    const RestaurantListPage(),
     const SearchPage(),
+    const FavoritePage(),
     const SettingPage(),
   ];
 
@@ -38,6 +41,10 @@ class _HomePageState extends State<HomePage> {
       label: 'Search',
     ),
     const BottomNavigationBarItem(
+      icon: Icon(Icons.favorite),
+      label: 'Favorites',
+    ),
+    const BottomNavigationBarItem(
       icon: Icon(Icons.settings),
       label: 'Settings',
     ),
@@ -47,6 +54,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _bottomNavIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper.configureSelectNotificationSubject(
+        InformationPage.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
   }
 
   @override
@@ -105,7 +125,9 @@ class RestaurantListPage extends StatelessWidget {
             } else if (state.state == ListResultState.error) {
               return Center(child: Text(state.message));
             } else {
-              return const Center(child: Text('Sorry, please connect your phone to the internet.'));
+              return const Center(
+                  child: Text(
+                      'Sorry, please connect your phone to the internet.'));
             }
           },
         ),

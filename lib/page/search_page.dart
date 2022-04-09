@@ -39,7 +39,8 @@ class _SearchPageState extends State<SearchPage> {
       } else if (state.state == SearchResultState.error) {
         return Center(child: Text(state.message));
       } else {
-        return const Center(child: Text('Sorry, please connect your phone to the internet.'));
+        return const Center(
+            child: Text('Sorry, please connect your phone to the internet.'));
       }
     });
   }
@@ -55,40 +56,45 @@ class _SearchPageState extends State<SearchPage> {
           apiService: ApiService(),
         ),
         child: Consumer<SearchProvider>(builder: (context, state, _) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        queries = value;
-                      });
-                      state.fetchSearchRestaurant(value);
-                    },
-                    autofocus: true,
-                    cursorColor: primaryColor,
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'Find Restaurant..',
-                      hintStyle: subText2,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
+          return Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      queries = value;
+                    });
+                    state.fetchSearchRestaurant(value);
+                  },
+                  autofocus: true,
+                  cursorColor: primaryColor,
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    hintText: 'Find Restaurant...',
+                    hintStyle: subText2,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(24),
                     ),
                   ),
                 ),
-                Container(
+              ),
+              Expanded(
+                child: SizedBox(
                   child: queries.isEmpty
                       ? const Center(child: Text(''))
                       : _searchRestaurant(context),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         }),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

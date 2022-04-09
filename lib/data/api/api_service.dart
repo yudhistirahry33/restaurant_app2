@@ -7,8 +7,7 @@ class ApiService {
   static const String baseUrlImage = '${_baseUrl}images/medium/';
 
   Future<RestaurantListResult> listRestaurant() async {
-    final response = await http.get(Uri.parse(
-        "${_baseUrl}list"));
+    final response = await http.get(Uri.parse("${_baseUrl}list"));
     if (response.statusCode == 200) {
       return RestaurantListResult.fromJson(json.decode(response.body));
     } else {
@@ -29,7 +28,7 @@ class ApiService {
   Future<SearchRestaurantResult> searchRestaurant(String query) async {
     final response = await http.get(Uri.parse('${_baseUrl}search?q=$query'));
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return SearchRestaurantResult.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to Search Restaurant');

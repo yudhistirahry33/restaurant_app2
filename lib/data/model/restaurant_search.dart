@@ -11,9 +11,11 @@ class SearchRestaurantResult {
   int founded;
   List<RestaurantList> restaurants;
 
-  factory SearchRestaurantResult.fromJson(Map<String, dynamic> json) => SearchRestaurantResult(
-    error: json['error'],
-    founded: json['founded'],
-    restaurants: List<RestaurantList>.from(json['restaurants'].map((e) => RestaurantList.fromJson(e))),
-  );
+  factory SearchRestaurantResult.fromJson(Map<String, dynamic> json) =>
+      SearchRestaurantResult(
+        error: json['error'],
+        founded: json['founded'],
+        restaurants: List<RestaurantList>.from(
+            json['restaurants'].map((e) => RestaurantList.fromJson(e))),
+      );
 }
